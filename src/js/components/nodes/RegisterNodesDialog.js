@@ -175,7 +175,7 @@ export default class RegisterNodesDialog extends React.Component {
                                onValid={this.onFormValid.bind(this)}
                               onInvalid={this.onFormInvalid.bind(this)}>*/}
                 <div className="modal-header">
-                  <Link to="/nodes/registered"
+                  <Link to={this.props.parentPath}
                         type="button"
                         className="close">
                     <span className="pficon pficon-close"></span>
@@ -214,7 +214,7 @@ export default class RegisterNodesDialog extends React.Component {
                   </div>
                 </div>
                 <div className="modal-footer">
-                  <Link to="/nodes/registered"
+                  <Link to={this.props.parentPath}
                         type="button"
                         className="btn btn-default">Cancel</Link>
                   <button disabled={!this.state.canSubmit}
@@ -232,3 +232,10 @@ export default class RegisterNodesDialog extends React.Component {
     );
   }
 }
+RegisterNodesDialog.propTypes = {
+  parentPath: React.PropTypes.string.isRequired
+};
+
+RegisterNodesDialog.defaultProps = {
+  parentPath: '/deployment-plan'
+};

@@ -3,6 +3,11 @@ import React from 'react';
 export default class DeploymentStep extends React.Component {
 
   render() {
+    let children = false;
+    if (this.props.children) {
+      children = React.cloneElement(this.props.children,
+        {currentPlanName: this.props.currentPlanName});
+    }
     return (
       <li>
         <h3>
@@ -14,7 +19,7 @@ export default class DeploymentStep extends React.Component {
             {this.props.links}
           </div>
           <div className="col-sm-12">
-            {this.props.children}
+            {children}
           </div>
         </div>
       </li>
@@ -24,6 +29,7 @@ export default class DeploymentStep extends React.Component {
 
 DeploymentStep.propTypes = {
   children: React.PropTypes.node,
+  currentPlanName: React.PropTypes.string.isRequired,
   links: React.PropTypes.array,
   subTitle: React.PropTypes.string,
   title: React.PropTypes.string.isRequired

@@ -1,6 +1,10 @@
 import React from 'react';
 
-export default class App extends React.Component {
+
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
+class App extends React.Component {
   render() {
     return (
       <div>
@@ -12,3 +16,5 @@ export default class App extends React.Component {
 App.propTypes = {
   children: React.PropTypes.element
 };
+
+export default DragDropContext(HTML5Backend)(App);

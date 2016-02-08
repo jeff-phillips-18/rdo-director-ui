@@ -1,0 +1,253 @@
+@deployment-checklist-bg-color:                                     rgba(255,255,255,.8);
+@deployment-checklist-bg-color-fallback:                            #fff;
+@deployment-role-bg-color:                                          #fff;
+@deployment-role-border-color:                                      #bbb;
+@deployment-role-block-border-color:                                #409d35;
+@deployment-role-compute-border-color:                              #ea7a23;
+@deployment-role-controller-border-color:                           #0d6f9a;
+@deployment-role-object-border-color:                               #a2030d;
+@deployment-role-ceph-border-color:                                 #582fc0;
+@deployment-role-cinder-border-color:                               @deployment-role-object-border-color;
+@deployment-role-swift-border-color:                                @deployment-role-block-border-color;
+@deployment-role-unconfigured-bg-color:                             #f8f8f8;
+@deployment-role-unconfigured-border-color:                         #d1d1d1;
+@deployment-role-unconfigured-color:                                #969696;
+@node-block-bg-color:                                               #92d400;
+@node-block-border-color:                                           @deployment-role-block-border-color;
+@node-compute-bg-color:                                             #f3a928;
+@node-compute-border-color:                                         @deployment-role-compute-border-color;
+@node-controller-bg-color:                                          #1ba9df;
+@node-controller-border-color:                                      @deployment-role-controller-border-color;
+@node-object-bg-color:                                              #EC4853;
+@node-object-border-color:                                          @deployment-role-object-border-color;
+@node-ceph-bg-color:                                                #8461f7;
+@node-ceph-border-color:                                            @deployment-role-ceph-border-color;
+@node-cinder-bg-color:                                              #EC4853;
+@node-cinder-border-color:                                          @deployment-role-cinder-border-color;
+@node-swift-bg-color:                                               #92d400;
+@node-swift-border-color:                                           @deployment-role-swift-border-color;
+
+.deployment-roles {
+  border: 2px dashed transparent;
+  float: left;
+  font-weight: 600;
+  list-style: none;
+  margin: 0 0 0 -12px;
+  min-width: 175px;
+  min-height: 60px;
+
+  &.deployment-roles-assigned {
+    margin-bottom: 5px;
+  }
+
+  &.deployment-roles-assignable {
+    padding: 10px 0 0 12px;
+  }
+
+  &.deployment-roles-unassigned {
+    min-height: 66px;
+    margin-top: -15px;
+    padding-top: 15px;
+  }
+
+  &.deployment-roles-active {
+    border-color: darken(@deployment-role-border-color, 25%);
+  }
+
+  &.deployment-roles-hover {
+    border-color: darken(@deployment-role-border-color, 50%);
+  }
+
+  > li {
+    background: @deployment-role-bg-color;
+    border: 2px solid @deployment-role-border-color;
+    border-radius: @border-radius-base;
+    float: left;
+    margin: 0 10px 10px 0;
+    min-width: 150px;
+    padding: 6px 20px;
+    position: relative;
+    text-align: center;
+
+    &:before {
+      background-image: linear-gradient(to bottom, @deployment-role-border-color 60%, #fff 0%);
+      background-position: left;
+      background-repeat: repeat-y;
+      background-size: 2px 5px;
+      border: 4px solid @deployment-role-border-color;
+      bottom: 1px;
+      content: '';
+      left: 1px;
+      position: absolute;
+      top: 1px;
+      width: 10px;
+    }
+
+    &:hover .role-option.edit {
+      display: block;
+    }
+
+    &.role-assigned {
+      &:hover {
+        .role-option {
+          right: 5px;
+          &.delete {
+            display: block;
+          }
+          &.edit {
+            top: 15px;
+          }
+        }
+      }
+      .deployment-role-label {
+        color: #fff;
+      }
+      .role-option {
+        color: #fff;
+        &:hover {
+          color: darken(#fff, 10%);
+        }
+      }
+    }
+
+    &.role {
+      border-color: @deployment-role-block-border-color;
+
+      &.role-assigned {
+        background: @node-block-bg-color;
+      }
+
+      &.role-compute {
+        border-color: @deployment-role-compute-border-color;
+        &:before {
+          background-image: linear-gradient(to bottom, @deployment-role-compute-border-color 60%, #fff 0%);
+          border-color: @deployment-role-compute-border-color;
+        }
+        &.role-assigned {
+          background: @node-compute-bg-color;
+        }
+      }
+
+      &.role-controller {
+        border-color: @deployment-role-controller-border-color;
+        &:before {
+          background-image: linear-gradient(to bottom, @deployment-role-controller-border-color 60%, #fff 0%);
+          border-color: @deployment-role-controller-border-color;
+        }
+        &.role-assigned {
+          background: @node-controller-bg-color;
+        }
+      }
+
+      &.role-block-storage {
+        border-color: @deployment-role-block-border-color;
+        &:before {
+          background-image: linear-gradient(to bottom, @deployment-role-block-border-color 60%, #fff 0%);
+          border-color: @deployment-role-block-border-color;
+        }
+        &.role-assigned {
+          background: @node-block-bg-color;
+        }
+      }
+
+      &.role-object-storage {
+        border-color: @deployment-role-object-border-color;
+        &:before {
+          background-image: linear-gradient(to bottom, @deployment-role-object-border-color 60%, #fff 0%);
+          border-color: @deployment-role-object-border-color;
+        }
+        &.role-assigned {
+          background: @node-object-bg-color;
+        }
+      }
+
+      &.role-ceph-storage {
+        border-color: @deployment-role-ceph-border-color;
+        &:before {
+          background-image: linear-gradient(to bottom, @deployment-role-ceph-border-color 60%, #fff 0%);
+          border-color: @deployment-role-ceph-border-color;
+        }
+        &.role-assigned {
+          background: @node-ceph-bg-color;
+        }
+      }
+
+      &.role-cinder-storage {
+        border-color: @deployment-role-cinder-border-color;
+        &:before {
+          background-image: linear-gradient(to bottom, @deployment-role-cinder-border-color 60%, #fff 0%);
+          border-color: @deployment-role-cinder-border-color;
+        }
+        &.role-assigned {
+          background: @node-cinder-bg-color;
+        }
+      }
+
+      &.role-swift-storage {
+        border-color: @deployment-role-swift-border-color;
+        &:before {
+          background-image: linear-gradient(to bottom, @deployment-role-swift-border-color 60%, #fff 0%);
+          border-color: @deployment-role-swift-border-color;
+        }
+        &.role-assigned {
+          background: @node-swift-bg-color;
+        }
+      }
+    }
+
+    &.role-target {
+      border-style: dashed;
+      margin: 0;
+      &:before {
+        display: none;
+      }
+      &.role-target-active {
+        border-color: darken(@deployment-role-border-color, 25%);
+      }
+      &.role-target-hover {
+        border-color: darken(@deployment-role-border-color, 50%);
+      }
+      > a {
+        display: block;
+        text-align: center;
+      }
+    }
+
+    &.ui-draggable:hover {
+      cursor: move;
+    }
+
+    .pficon-help {
+      cursor: pointer;
+      font-size: @font-size-large;
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      &:hover {
+        color: @gray;
+      }
+    }
+
+    .node-count {
+      padding-left: 18px;
+      width: 90px;
+
+      .form-control {
+        text-align: center;
+      }
+    }
+
+    .role-option {
+      display: none;
+      font-size: @font-size-large;
+      position: absolute;
+      right: 10px;
+      &.delete {
+        top: -2px;
+      }
+      &.edit {
+        top: 4px;
+      }
+    }
+  }
+}

@@ -14,6 +14,8 @@ import NotificationList       from './notifications/NotificationList';
 import ValidationsIndicator from './validations/ValidationsIndicator';
 import ValidationsList from './validations/ValidationsList';
 
+import MockValidations from '../mock/mockValidations';
+
 export default class Footer extends React.Component {
   constructor() {
     super();
@@ -74,6 +76,52 @@ export default class Footer extends React.Component {
     this.setState({isOpen: true, listShown: 'validations'});
   }
 
+  fakeNotification (e) {
+    if (this.fakeCount === undefined) {
+      this.fakeCount = 0;
+    }
+
+    let msgType = this.fakeCount % 4;
+    this.fakeCount++;
+    if (msgType === 0) {
+      NotificationActions.notify({
+        title: 'Bah!',
+        message: 'Something has gone awry!',
+        type: 'error'
+      });
+    }
+    else if (msgType === 1) {
+      NotificationActions.notify({
+        title: 'Oopsies!',
+        message: 'It looks like something could be an issue.',
+        type: 'warning'
+      });
+    }
+    else if (msgType === 2) {
+      NotificationActions.notify({
+        title: 'Yay!',
+        message: 'Everything went completely as planned.',
+        type: 'success'
+      });
+    }
+    else if (msgType === 3) {
+      NotificationActions.notify({
+        title: 'Hey!',
+        message: 'You might want to check out how things went.',
+        type: 'info'
+      });
+    }
+  }
+
+  fakeValidations () {
+    if (this.state.validationStages && this.state.validationStages.length > 0) {
+      this.setState({validationStages: []});
+    }
+    else {
+      this.setState({validationStages: MockValidations.validations});
+    }
+  }
+
   render() {
     let indicatorsClasses = ClassNames({
       'drawer-nav' : true,
@@ -99,6 +147,15 @@ export default class Footer extends React.Component {
       active: this.state.listShown === 'validations'
     });
 
+    let fakeStyle = {
+      backgroundColor: 'transparent',
+      color: 'transparent',
+      cursor: 'pointer',
+      float: 'right',
+      height: '30px',
+      width: '20px'
+    };
+
     return (
       <div className="wrapper-fixed-footer drawer-container container-fluid">
         <div className="row">
@@ -120,6 +177,12 @@ export default class Footer extends React.Component {
                                     onClick={this.showValidations.bind(this)}/>
             </li>
           </ul>
+          <span onClick={this.fakeNotification.bind(this)}
+                style={fakeStyle}
+                title="Fake Notification"></span>
+          <span onClick={this.fakeValidations.bind(this)}
+                style={fakeStyle}
+                title="Toggle Validations"></span>
         </div>
         <div className={contentClasses}>
           <NotificationList active={this.state.isOpen && this.state.listShown === 'notifications'}

@@ -12,7 +12,7 @@ export default {
       this.loginUser(keystoneAccess);
       return true;
     }).catch((error) => {
-      console.error('Error in LoginActions.authenticateUserViaToken', error); //eslint-disable-line no-console
+      console.error('Error in LoginActions.authenticateUserViaToken', error);  //eslint-disable-line no-console
       let errorHandler = new KeystoneApiErrorHandler(error);
       errorHandler.errors.forEach((error) => {
         NotificationActions.notify(error);
@@ -21,7 +21,7 @@ export default {
   },
 
   loginUser(keystoneAccess) {
-    TempStorage.setItem('keystoneAuthTokenId', keystoneAccess.token.id);
+//    TempStorage.setItem('keystoneAuthTokenId', keystoneAccess.token.id);
     AppDispatcher.dispatch({
       actionType: LoginConstants.LOGIN_USER,
       keystoneAccess: keystoneAccess

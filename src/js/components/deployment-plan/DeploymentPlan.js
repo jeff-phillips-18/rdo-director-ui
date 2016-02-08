@@ -7,8 +7,10 @@ import Loader from '../ui/Loader';
 import NoPlans from './NoPlans';
 import NotificationActions from '../../actions/NotificationActions';
 import PlansStore from '../../stores/PlansStore';
+import FlavorListPanel from '../flavors/FlavorListPanel';
 import TripleOApiService from '../../services/TripleOApiService';
 import TripleOApiErrorHandler from '../../services/TripleOApiErrorHandler';
+import UnassignedRoles from '../roles/UnassignedRoles';
 
 export default class DeploymentPlan extends React.Component {
   constructor() {
@@ -64,8 +66,17 @@ export default class DeploymentPlan extends React.Component {
       </Link>
     ];
 
-    let roleConfigLinks = [
+    let createRegisterLinks = [
       <Link className="btn btn-link" key="2" to={'/' + this.props.route.path + '/parameters'}>
+        Create Favor
+      </Link>,
+      <Link className="btn btn-link" key="3" to={'/' + this.props.route.path + '/register'}>
+        Register Nodes
+      </Link>
+    ];
+
+    let roleConfigLinks = [
+      <Link className="btn btn-link" key="4" to={'/' + this.props.route.path + '/parameters'}>
         Edit Parameters
       </Link>
     ];
@@ -91,15 +102,25 @@ export default class DeploymentPlan extends React.Component {
               </div>
               <ol className="deployment-step-list">
                 <DeploymentStep title="Specify Deployment Configuration"
+                                currentPlanName={this.state.currentPlanName}
                                 subTitle={deploymentConfigDescription}
                                 links={deploymentConfigLinks}/>
                 <DeploymentStep title="Create Flavors and Register Nodes"
+                                currentPlanName={this.state.currentPlanName}
+                                links={createRegisterLinks}
                                 subTitle={this.state.flavors.length > 0 ?
-                                 '' : 'There are no flavors or nodes currently.'} />
+                                 '' : 'There are no flavors or nodes currently.'}>
+                  <FlavorListPanel parentPath={'/' + this.props.route.path}
+                                   currentPlanName={this.state.currentPlanName}/>
+                </DeploymentStep>
                 <DeploymentStep title="Configure and Assign Roles"
+                                currentPlanName={this.state.currentPlanName}
                                 subTitle="Parameters for all roles can be configured."
-                                links={roleConfigLinks}/>
-                <DeploymentStep title="Deploy">
+                                links={roleConfigLinks}>
+                  <UnassignedRoles />
+                </DeploymentStep>
+                <DeploymentStep title="Deploy"
+                                currentPlanName={this.state.currentPlanName}>
                   <div className="actions pull-left">
                     <a className={'link btn btn-primary btn-lg ' +
                                   (this.state.readyToDeploy ? '' : 'disabled')}

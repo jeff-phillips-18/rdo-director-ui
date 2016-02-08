@@ -13,17 +13,56 @@ class FlavorStore extends BaseStore {
   _registerToActions(payload) {
     switch(payload.actionType) {
     case 'UPDATE_FLAVOR_ROLE':
-      this.updateFlavorRole(payload.role);
+      this.updateFlavorRole(payload.flavor, payload.role);
+      break;
+    case 'ASSIGN_FLAVOR_ROLE':
+      this.assignFlavorRole(payload.flavor, payload.role);
+      break;
+    case 'UNASSIGN_FLAVOR_ROLE':
+      this.unassignFlavorRole(payload.flavor, payload.role);
       break;
     default:
       break;
     }
   }
 
-  updateFlavorRole(role) {
-    this.state.flavors[0].roles.filter((r) => { r.name == role.name; })[0] = role;
-    this.state.flavors[0].freeNodeCount = this._calculateFreeNodes(this.state.flavors[0]);
-    this.emitChange();
+  updateFlavorRole(flavor, role) {
+    let stateFlavor = this.state.flavors.find(function(nextFlavor) {
+      return (flavor.name === nextFlavor.name);
+    });
+    if (stateFlavor) {
+      stateFlavor.roles.filter((r) => { r.name == role.name; })[0] = role;
+      stateFlavor.freeNodeCount = this._calculateFreeNodes(stateFlavor);
+      this.emitChange();
+    }
+  }
+
+  assignFlavorRole(flavor, role) {
+    let stateFlavor = this.state.flavors.find(function(nextFlavor) {
+      return (flavor.name === nextFlavor.name);
+    });
+    if (stateFlavor) {
+      let flavorRole = {
+        name: role.name,
+        nodeCount: 1
+      };
+      stateFlavor.roles.push(flavorRole);
+      stateFlavor.freeNodeCount = this._calculateFreeNodes(stateFlavor);
+      this.emitChange();
+    }
+  }
+
+  unassignFlavorRole(flavor, role) {
+    let stateFlavor = this.state.flavors.find(function(nextFlavor) {
+      return (flavor.name === nextFlavor.name);
+    });
+    if (stateFlavor) {
+      stateFlavor.roles = stateFlavor.roles.filter(function(nextRole) {
+        return nextRole.name !== role.name;
+      });
+      stateFlavor.freeNodeCount = this._calculateFreeNodes(stateFlavor);
+      this.emitChange();
+    }
   }
 
   _calculateFreeNodes(flavor) {

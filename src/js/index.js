@@ -52,6 +52,7 @@ let routes = (
         <Route path="deployment-plan" component={DeploymentPlan}>
           <Route path="environment" component={EnvironmentConfiguration}/>
           <Route path="parameters" component={Parameters}/>
+          <Route path="register" component={RegisterNodesDialog}/>
         </Route>
 
         <Route path="roles" component={Roles}/>

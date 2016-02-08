@@ -10,6 +10,8 @@ import LoginActions from '../actions/LoginActions';
 import LoginStore from '../stores/LoginStore';
 import NotificationsToaster from './notifications/NotificationsToaster';
 
+var mockData = true;
+
 export default class Login extends React.Component {
   constructor() {
     super();
@@ -55,30 +57,44 @@ export default class Login extends React.Component {
 
   handleLogin(formData, resetForm, invalidateForm) {
     this._disableButton();
-    KeystoneApiService.authenticateUser(formData.username, formData.password).then((response) => {
-      LoginActions.loginUser(response.access);
-    }).catch((error) => {
-      this._enableButton();
-      console.error('Error in Login.handleLogin', error); //eslint-disable-line no-console
-      let errorHandler = new KeystoneApiErrorHandler(error, Object.keys(this.refs.form.inputs));
-      invalidateForm(errorHandler.formFieldErrors);
-      this.setState({
-        formErrors: errorHandler.errors
+    if (!mockData || formData.username == 'fail')
+    {
+      KeystoneApiService.authenticateUser(formData.username, formData.password).then((response) => {
+        LoginActions.loginUser(response.access);
+      }).catch((error) => {
+        this._enableButton();
+        console.error('Error in Login.handleLogin', error); //eslint-disable-line no-console
+        let errorHandler = new KeystoneApiErrorHandler(error, Object.keys(this.refs.form.inputs));
+        invalidateForm(errorHandler.formFieldErrors);
+        this.setState({
+          formErrors: errorHandler.errors
+        });
       });
-    });
+    }
+    else {
+      let mockKeystoneAccess = {
+        token: {
+          id: 'someTokenIdString'
+        },
+        user: {username: formData.username},
+        serviceCatalog: 'service catalog',
+        metadata: 'some metadata'
+      };
+      LoginActions.loginUser(mockKeystoneAccess);
+    }
   }
 
   render() {
     return (
       <div>
         <span id="badge">
-          <img src="/img/logo.svg" alt="RDO Manager"></img>
+          <img src="img/logo.svg" alt="RDO Manager"></img>
         </span>
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
               <div id="brand">
-                <img src="/img/brand.svg" alt="RDO Manager"></img>
+                <img src="img/brand.svg" alt="RDO Manager"></img>
               </div>
             </div>
             <div className="col-sm-7 col-md-6 col-lg-5 login">

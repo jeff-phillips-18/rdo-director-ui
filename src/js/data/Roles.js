@@ -8,15 +8,15 @@ export default [
     flavor: null
   },
   {
-    name: 'Ceph-Storage',
+    name: 'Ceph Storage',
     flavor: null
   },
   {
-    name: 'Cinder-Storage',
+    name: 'Cinder Storage',
     flavor: null
   },
   {
-    name: 'Swift-Storage',
+    name: 'Swift Storage',
     flavor: null
   }
 ];

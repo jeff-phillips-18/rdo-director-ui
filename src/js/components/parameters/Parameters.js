@@ -9,6 +9,8 @@ import ParameterTree from './ParameterTree';
 import TripleOApiService from '../../services/TripleOApiService';
 import TripleOApiErrorHandler from '../../services/TripleOApiErrorHandler';
 
+import MockParameters from '../../data/Parameters';
+
 export default class Parameters extends React.Component {
   constructor() {
     super();
@@ -28,7 +30,11 @@ export default class Parameters extends React.Component {
         parametersLoaded: true
       });
     }).catch(error => {
-      this.props.history.pushState(null, this.props.parentPath);
+//      this.props.history.pushState(null, this.props.parentPath);
+      this.setState({
+        parameters: MockParameters,
+        parametersLoaded: true
+      });
       let errorHandler = new TripleOApiErrorHandler(error);
       errorHandler.errors.forEach((error) => {
         NotificationActions.notify(error);

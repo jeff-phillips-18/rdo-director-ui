@@ -5,11 +5,11 @@ export default [
     roles: [
       {
         name: 'Controller',
-        nodeCount: 2
+        nodeCount: 3
       },
       {
         name: 'Compute',
-        nodeCount: 0
+        nodeCount: 1
       }
     ],
     nodeCount: 20

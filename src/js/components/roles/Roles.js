@@ -95,7 +95,7 @@ export class FlavorPanel extends React.Component {
             <div className="col-sm-4 col-md-3">
               <FreeNodesPanel nodeCount={this.props.flavor.freeNodeCount} />
             </div>
-            <RoleList roles={this.props.flavor.roles}/>
+            <RoleList roles={this.props.flavor.roles} flavor={this.props.flavor}/>
             <div className="col-sm-4 col-md-3">
               <DropZonePanel />
             </div>
@@ -115,7 +115,7 @@ export class RoleList extends React.Component {
     let roles = this.props.roles.map((role, index) => {
       return (
         <div className="col-sm-4 col-md-3" key={index}>
-          <RolePanel role={role}/>
+          <RolePanel role={role} flavor={this.props.flavor}/>
         </div>
       );
     });
@@ -127,6 +127,7 @@ export class RoleList extends React.Component {
   }
 }
 RoleList.propTypes = {
+  flavor: React.PropTypes.object.isRequired,
   roles: React.PropTypes.array.isRequired
 };
 
@@ -170,12 +171,13 @@ export class RolePanel extends React.Component {
   updateCount(increment) {
     let updatedRole = this.props.role;
     updatedRole.nodeCount = this.props.role.nodeCount + increment;
-    RolesActions.updateRole(updatedRole);
+    RolesActions.updateRole(this.props.flavor, updatedRole);
   }
 
   render() {
+    let roleClass = this.props.role.name.toLowerCase().replace(/ /g, '-');
     return (
-      <div className={'panel panel-default role-panel ' + this.props.role.name.toLowerCase()}>
+      <div className={'panel panel-default role-panel ' + roleClass}>
         <div className="panel-heading">
           <h3 className="panel-title">{this.props.role.name}</h3>
         </div>
@@ -188,5 +190,6 @@ export class RolePanel extends React.Component {
   }
 }
 RolePanel.propTypes = {
+  flavor: React.PropTypes.object.isRequired,
   role: React.PropTypes.object.isRequired
 };

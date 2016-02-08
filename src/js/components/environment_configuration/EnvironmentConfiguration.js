@@ -11,6 +11,7 @@ import TabPane from '../ui/TabPane';
 import NotificationActions from '../../actions/NotificationActions';
 import TripleOApiService from '../../services/TripleOApiService';
 import TripleOApiErrorHandler from '../../services/TripleOApiErrorHandler';
+import MockEnvironments from '../../data/Environments';
 
 export default class EnvironmentConfiguration extends React.Component {
   constructor() {
@@ -38,7 +39,11 @@ export default class EnvironmentConfiguration extends React.Component {
         environmentConfigurationLoaded: true
       });
     }).catch((error) => {
-      this.props.history.pushState(null, this.props.parentPath);
+//      this.props.history.pushState(null, this.props.parentPath);
+      this.setState({
+        environmentConfiguration: MockEnvironments,
+        environmentConfigurationLoaded: true
+      });
       let errorHandler = new TripleOApiErrorHandler(error);
       errorHandler.errors.forEach((error) => {
         NotificationActions.notify(error);
